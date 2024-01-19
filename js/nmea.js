@@ -6,19 +6,23 @@ Made by: Bruno Vieira
 
 class Nmea {
 
-    constructor() {
+    constructor(option) {
 
         // Global
         let _this = this;
+        this.option = option;
 
-        this.combinedObject = {
+        this.checkSource = function(sentence)
+        {
+            if(!this.option) { return sentence;  } else { return this.option  }
+        }
+        
+        this.nmea = {
             gpgga: {
                 sentenceType: function(sentence) { return "GPGGA"; },
                 time: function(sentence) {
         
-                    const fields = sentence.split(',');
-                    const timeField = fields[1];
-        
+                    const timeField = sentence[1];
                     const hours = parseInt(timeField.substring(0, 2), 10);
                     const minutes = parseInt(timeField.substring(2, 4), 10);
                     const seconds = parseInt(timeField.substring(4, 6), 10);
@@ -32,34 +36,30 @@ class Nmea {
                 },
                 coordinates: function(sentence) {
         
-                    const parts = sentence.split(',');
-        
-                    if (parts[0] !== '$GPGGA' || parts.length < 14 || parts[6] === '0') {
+                    if (sentence[0] !== '$GPGGA' || sentence.length < 14 || sentence[6] === '0') {
                         return null;
                     }
         
-                    const latitude = parseFloat(parts[2].slice(0, 2)) + parseFloat(parts[2].slice(2)) / 60;
-                    const longitude = parseFloat(parts[4].slice(0, 3)) + parseFloat(parts[4].slice(3)) / 60;
+                    const latitude = parseFloat(sentence[2].slice(0, 2)) + parseFloat(sentence[2].slice(2)) / 60;
+                    const longitude = parseFloat(sentence[4].slice(0, 3)) + parseFloat(sentence[4].slice(3)) / 60;
         
-                    const latitudeDirection = parts[3] === 'N' ? 1 : -1;
-                    const longitudeDirection = parts[5] === 'E' ? 1 : -1;
+                    const latitudeDirection = sentence[3] === 'N' ? 1 : -1;
+                    const longitudeDirection = sentence[5] === 'E' ? 1 : -1;
         
                     const coordinates = {
                         latitude: latitude * latitudeDirection,
-                        latitudeDirection: parts[3],
+                        latitudeDirection: sentence[3],
                         longitude: longitude * longitudeDirection,
-                        longitudeDirection: parts[5]
+                        longitudeDirection: sentence[5]
                     };
         
                     return coordinates;
         
                 },
                 fixType: function(sentence) {
-        
-                    const parts = sentence.split(',');
-
-                    if (parts.length >= 7) {
-                      const fixType = parts[6];
+    
+                    if (sentence.length >= 7) {
+                      const fixType = sentence[6];
                       return fixType;
                     } else {
                       return 'Error: Invalid sentence format';
@@ -67,10 +67,9 @@ class Nmea {
 
                 },
                 satellites: function(sentence) {
-        
-                    const parts = sentence.split(',');
-                    if (parts.length >= 9) {
-                      const satellites = parts[7];
+    
+                    if (sentence.length >= 9) {
+                      const satellites = sentence[7];
                       return satellites;
                     } else {
                       return 'Error: Invalid sentence format';
@@ -79,9 +78,8 @@ class Nmea {
                 },
                 hdop: function(sentence) {
         
-                    const parts = sentence.split(',');
-                    if (parts.length >= 10) {
-                        const hdop = parts[8];
+                    if (sentence.length >= 10) {
+                        const hdop = sentence[8];
                         return hdop;
                       } else {
                         return 'Error: Invalid sentence format';
@@ -90,9 +88,8 @@ class Nmea {
                 },
                 altitude: function(sentence) {
         
-                    const parts = sentence.split(',');
-                    if (parts.length >= 11) {
-                        const altitude = parts[9];
+                    if (sentence.length >= 11) {
+                        const altitude = sentence[9];
                         return altitude;
                     } else {
                         return 'Error: Invalid sentence format';
@@ -101,9 +98,8 @@ class Nmea {
                 },
                 altitudeUnits: function(sentence) {
         
-                    const parts = sentence.split(',');
-                    if (parts.length >= 12) {
-                        const altitudeUnits = parts[10];
+                    if (sentence.length >= 12) {
+                        const altitudeUnits = sentence[10];
                         return altitudeUnits;
                     } else {
                         return 'Error: Invalid sentence format';
@@ -112,6 +108,7 @@ class Nmea {
                 },
                 checksum: function(sentence)
                 {
+                    sentence = sentence.join(',');
                     let checksum = 0;
                     for (let i = 1; i < sentence.length; i++) {
                       if (sentence[i] === '*') {
@@ -127,11 +124,9 @@ class Nmea {
             gprmc: {
                 sentenceType: function(sentence) { return "GPRMC"; },
                 time: function(sentence) {
-
-                    const fields = sentence.split(',');
         
-                    const dateField = fields[9];
-                    const timeField = fields[1];
+                    const dateField = sentence[9];
+                    const timeField = sentence[1];
     
                     const day = parseInt(dateField.substring(0, 2), 10);
                     const month = parseInt(dateField.substring(2, 4), 10);
@@ -154,31 +149,28 @@ class Nmea {
                 },
                 positionStatus:  function(sentence) {
         
-                    const fields = sentence.split(',');
-                    const positionStatus = fields[2].toString();
+                    const positionStatus = sentence[2].toString();
         
                     return positionStatus
         
                 },
                 coordinates: function(sentence) {
         
-                    const parts = sentence.split(',');
-        
-                    if (parts[0] !== '$GPRMC' || parts.length < 10 || parts[2] !== 'A') {
+                    if (sentence[0] !== '$GPRMC' || sentence.length < 10 || sentence[2] !== 'A') {
                         return null;
                     }
         
-                    const latitude = parseFloat(parts[3].slice(0, 2)) + parseFloat(parts[3].slice(2)) / 60;
-                    const longitude = parseFloat(parts[5].slice(0, 3)) + parseFloat(parts[5].slice(3)) / 60;
+                    const latitude = parseFloat(sentence[3].slice(0, 2)) + parseFloat(sentence[3].slice(2)) / 60;
+                    const longitude = parseFloat(sentence[5].slice(0, 3)) + parseFloat(sentence[5].slice(3)) / 60;
         
-                    const latitudeDirection = parts[4] === 'N' ? 1 : -1;
-                    const longitudeDirection = parts[6] === 'E' ? 1 : -1;
+                    const latitudeDirection = sentence[4] === 'N' ? 1 : -1;
+                    const longitudeDirection = sentence[6] === 'E' ? 1 : -1;
         
                     const coordinates = {
                         latitude: latitude * latitudeDirection,
-                        latitudeDirection: parts[4],
+                        latitudeDirection: sentence[4],
                         longitude: longitude * longitudeDirection,
-                        longitudeDirection: parts[6],
+                        longitudeDirection: sentence[6],
                     };
         
                     return coordinates;
@@ -186,21 +178,18 @@ class Nmea {
                 },
                 speed: function(sentence) {
         
-                    const fields = sentence.split(',');
-                    const speedInKnots = parseFloat(fields[7]);
+                    const speedInKnots = parseFloat(sentence[7]);
                     return speedInKnots;
         
                 },
                 heading: function(sentence) {
         
-                    const fields = sentence.split(',');
-                    const heading = parseFloat(fields[8]);
+                    const heading = parseFloat(sentence[8]);
                     return heading;
                 },
                 date: function(sentence) {
         
-                    const fields = sentence.split(',');
-                    const date = fields[9].toString();
+                    const date = sentence[9].toString();
         
                     const day = parseInt(date.substring(0, 2), 10);
                     const month = parseInt(date.substring(2, 4), 10) - 1; // Months are 0-indexed in JavaScript
@@ -212,22 +201,19 @@ class Nmea {
                 },
                 magneticVariation: function(sentence) {
         
-                    const fields = sentence.split(',');
-                    const magneticVariation = fields[10].toString();
-        
+                    const magneticVariation = sentence[10].toString();
                     return magneticVariation
         
                 },
                 magneticVariationDirection: function(sentence) {
         
-                    const fields = sentence.split(',');
-                    const magneticVariationDirection = fields[11].toString();
-        
+                    const magneticVariationDirection = sentence[11].toString();
                     return magneticVariationDirection
         
                 },
                 checksum: function(sentence) {
         
+                    sentence = sentence.join(',');
                     const sentenceWithoutChecksum = sentence.substring(1, sentence.indexOf('*'));
         
                     let checksum = 0;
@@ -244,20 +230,31 @@ class Nmea {
     }
 
     getInfo(property, sentence) {
+
+        // Check if source if from constructor or parameter
+        sentence = this.checkSource(sentence);
+       
+        // Check if sentence is provided
+        if(sentence)
+        {
+            const splitSentence = sentence.split(',');
+
+            // Check if the sentence starts with "$" and has at least two fields
+            if (sentence.startsWith('$') && splitSentence.length >= 2) {
         
-        const fields = sentence.split(',');
-    
-        // Check if the sentence starts with "$" and has at least two fields
-        if (sentence.startsWith('$') && fields.length >= 2) {
-    
-            const sentenceType = fields[0].substring(1).toLowerCase();
-            const coordinatesProperty = property;
-            const result = this.combinedObject[sentenceType][coordinatesProperty](sentence);
-            return result;
-    
+                const sentenceType = splitSentence[0].substring(1).toLowerCase();
+                const coordinatesProperty = property;
+                const result = this.nmea[sentenceType][coordinatesProperty](splitSentence);
+                return result;
+        
+            } else {
+                return "Invalid NMEA Sentence"; // Invalid NMEA sentence
+            }
         } else {
-            return "Invalid NMEA Sentence"; // Invalid NMEA sentence
+            return "NMEA Sentence must be provided in constructor or as parameter"; // Invalid NMEA sentence
         }
+
+    
     }
     
 
@@ -268,15 +265,15 @@ class Nmea {
     {
 
         // GPGGA
-        console.log(this.combinedObject.gpgga.sentenceType(sentence));
-        console.log(this.combinedObject.gpgga.coordinates(sentence));
-        console.log(this.combinedObject.gpgga.time(sentence));
-        console.log(this.combinedObject.gpgga.fixType(sentence));
-        console.log(this.combinedObject.gpgga.satellites(sentence));
-        console.log(this.combinedObject.gpgga.hdop(sentence));
-        console.log(this.combinedObject.gpgga.altitude(sentence));
-        console.log(this.combinedObject.gpgga.altitudeUnits(sentence));    
-        console.log(this.combinedObject.gpgga.checksum(sentence));  
+        console.log(this.nmea.gpgga.sentenceType(sentence));
+        console.log(this.nmea.gpgga.coordinates(sentence));
+        console.log(this.nmea.gpgga.time(sentence));
+        console.log(this.nmea.gpgga.fixType(sentence));
+        console.log(this.nmea.gpgga.satellites(sentence));
+        console.log(this.nmea.gpgga.hdop(sentence));
+        console.log(this.nmea.gpgga.altitude(sentence));
+        console.log(this.nmea.gpgga.altitudeUnits(sentence));    
+        console.log(this.nmea.gpgga.checksum(sentence));  
         
     }
 
@@ -284,16 +281,16 @@ class Nmea {
     {
 
         // GPRMC
-        console.log(this.combinedObject.gprmc.sentenceType(sentence));
-        console.log(this.combinedObject.gprmc.time(sentence));
-        console.log(this.combinedObject.gprmc.positionStatus(sentence));
-        console.log(this.combinedObject.gprmc.coordinates(sentence));
-        console.log(this.combinedObject.gprmc.speed(sentence));
-        console.log(this.combinedObject.gprmc.heading(sentence));
-        console.log(this.combinedObject.gprmc.date(sentence));
-        console.log(this.combinedObject.gprmc.magneticVariation(sentence));
-        console.log(this.combinedObject.gprmc.magneticVariationDirection(sentence));
-        console.log(this.combinedObject.gprmc.checksum(sentence));
+        console.log(this.nmea.gprmc.sentenceType(sentence));
+        console.log(this.nmea.gprmc.time(sentence));
+        console.log(this.nmea.gprmc.positionStatus(sentence));
+        console.log(this.nmea.gprmc.coordinates(sentence));
+        console.log(this.nmea.gprmc.speed(sentence));
+        console.log(this.nmea.gprmc.heading(sentence));
+        console.log(this.nmea.gprmc.date(sentence));
+        console.log(this.nmea.gprmc.magneticVariation(sentence));
+        console.log(this.nmea.gprmc.magneticVariationDirection(sentence));
+        console.log(this.nmea.gprmc.checksum(sentence));
     }
    
 }
