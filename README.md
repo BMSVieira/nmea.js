@@ -25,10 +25,11 @@ $GPGSV,3,2,11,02,39,223,16,13,28,070,17,26,23,252,,04,14,186,15*77
 $GPGSV,3,3,11,29,09,301,24,16,09,020,,36,,,*76
 $GPRMC,092751.000,A,5321.6802,N,00630.3371,W,0.06,31.66,280511,,,A*45
 ```
+###### For more detailed info: https://en.wikipedia.org/wiki/NMEA_0183 and https://w3.cs.jmu.edu/bernstdh/web/common/help/nmea-sentences.php
 
 ◼️ Demo:
 -
-https://mooviejs.com/
+https://bmsvieira.github.io/nmea.js
 
 ◼️ Installation (Browser):
 -
