@@ -231,6 +231,8 @@ class Nmea {
 
     getInfo(property, sentence) {
 
+        console.log(this.nmea);
+
         // Check if source if from constructor or parameter
         sentence = this.checkSource(sentence);
        
@@ -256,47 +258,10 @@ class Nmea {
 
     
     }
-    
-
-
-
-
-    getGPGGA(sentence)
-    {
-
-        // GPGGA
-        console.log(this.nmea.gpgga.sentenceType(sentence));
-        console.log(this.nmea.gpgga.coordinates(sentence));
-        console.log(this.nmea.gpgga.time(sentence));
-        console.log(this.nmea.gpgga.fixType(sentence));
-        console.log(this.nmea.gpgga.satellites(sentence));
-        console.log(this.nmea.gpgga.hdop(sentence));
-        console.log(this.nmea.gpgga.altitude(sentence));
-        console.log(this.nmea.gpgga.altitudeUnits(sentence));    
-        console.log(this.nmea.gpgga.checksum(sentence));  
-        
-    }
-
-    getGPRMC(sentence)
-    {
-
-        // GPRMC
-        console.log(this.nmea.gprmc.sentenceType(sentence));
-        console.log(this.nmea.gprmc.time(sentence));
-        console.log(this.nmea.gprmc.positionStatus(sentence));
-        console.log(this.nmea.gprmc.coordinates(sentence));
-        console.log(this.nmea.gprmc.speed(sentence));
-        console.log(this.nmea.gprmc.heading(sentence));
-        console.log(this.nmea.gprmc.date(sentence));
-        console.log(this.nmea.gprmc.magneticVariation(sentence));
-        console.log(this.nmea.gprmc.magneticVariationDirection(sentence));
-        console.log(this.nmea.gprmc.checksum(sentence));
-    }
-   
 }
 
 // Export module to use it in browser and NodeJS
 try {
-   module.exports = exports = Lwder;
+   module.exports = exports = Nmea;
 } catch (e) {}
 

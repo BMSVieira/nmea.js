@@ -57,7 +57,7 @@
                         <div class="mb-5 mb-lg-0 mb-lg-3" style="text-align:center; margin-top:70px; margin-bottom:28px!important;">
                         <img src="img/logo.png" style="max-width:300px; width:40%;">
                         <p style=" font-size: 32pt; color: white; font-family: 'Cairo', sans-serif;">Managing NMEA Sentences</p>
-                         <a href="https://github.com/BMSVieira/lwder.js" target="_blank" style="cursor:pointer;" class="btn btn-dark  btn-sm ">View on Github</a>
+                         <a href="https://github.com/BMSVieira/nmea.js" target="_blank" style="cursor:pointer;" class="btn btn-dark  btn-sm ">View on Github</a>
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                         NMEA Information
                     </div>
                     <div class="col-lg-12">
-                        <pre id="lms_console" style="background-color: #070b0f; padding: 15px; height:250px; overflow-y:hidden; border-radius:8px;"></pre>
+                        <pre id="lms_console" style="background-color: #070b0f; padding: 15px; height:250px; border-radius:8px;"></pre>
                     </div> 
 
 
@@ -90,7 +90,6 @@
             // Initialize nmea
             const example = new Nmea();
 
-            /*
             document.getElementById("lms_console").insertAdjacentHTML("beforeend", "<p class='pre_nmea'><b style='color:#ededed'>Time:</b>  "+example.getInfo("time", "$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03")+"</p>");
             document.getElementById("lms_console").insertAdjacentHTML("beforeend", "<p class='pre_nmea'><b style='color:#ededed'>positionStatus:</b>  "+example.getInfo("positionStatus", "$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03")+"</p>");
             document.getElementById("lms_console").insertAdjacentHTML("beforeend", "<p class='pre_nmea'><b style='color:#ededed'>coordinates:</b>  "+example.getInfo("coordinates", "$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03")+"</p>");
@@ -100,9 +99,7 @@
             document.getElementById("lms_console").insertAdjacentHTML("beforeend", "<p class='pre_nmea'><b style='color:#ededed'>magneticVariation:</b>  "+example.getInfo("magneticVariation", "$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03")+"</p>");
             document.getElementById("lms_console").insertAdjacentHTML("beforeend", "<p class='pre_nmea'><b style='color:#ededed'>magneticVariationDirection:</b>  "+example.getInfo("magneticVariationDirection", "$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03")+"</p>");
             document.getElementById("lms_console").insertAdjacentHTML("beforeend", "<p class='pre_nmea'><b style='color:#ededed'>checksum:</b>  "+example.getInfo("checksum", "$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03")+"</p>");
-*/
-           console.log(example.getInfo("checksum", "$GPGGA,092751.000,5321.6802,N,00630.3371,W,1,8,1.03,61.7,M,55.3,M,,*75"));
-          
+           console.log(example.getInfo("date", "$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03"));
             
         });
         </script>
