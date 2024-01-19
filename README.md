@@ -86,7 +86,7 @@ There are specific methods you can use for each type of NMEA Sentence, because t
 ◼️ Usage:
 -
 
-There are two ways of extract information, either send the NMEA sentence in the constructor or pass it as variable, for example:
+There are two ways of extract information, either send the NMEA sentence in the constructor or pass it as paremeter, for example:
 
 <b>Constructor:</b>
 ```javascript
