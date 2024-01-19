@@ -83,3 +83,35 @@ There are specific methods you can use for each type of NMEA Sentence, because t
 | sentenceType| `string`|
 | speed | `float` |
 
+◼️ Usage:
+-
+
+There are two ways of extract information, either send the NMEA sentence in the constructor or pass it as variable, for example:
+
+<b>Constructor:</b>
+```javascript
+demo = new Nmea("$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03");
+
+// Now you can explore this NMEA sentence without having to pass it as a paremeter when using the method, for example:
+
+demo.getInfo("speed"); // 12
+demo.getInfo("heading"); // 25
+demo.getInfo("magneticVariation"); // 1.2
+...
+```
+
+<b>As a paremeter:</b>
+```javascript
+demo = new Nmea();
+
+// Now you have the nmea.js library ready to extract information from multiple and different nmea sentences, as long as you pass it as parameter, for example:
+
+demo.getInfo("speed", "$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03"); // 12
+demo.getInfo("heading", "$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03"); // 25
+demo.getInfo("magneticVariation", "$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03"); // 1.2
+demo.getInfo("altitudeUnits", "$GPGGA,092751.000,5321.6802,N,00630.3371,W,1,8,1.03,61.7,M,55.3,M,,*75"); // M
+demo.getInfo("hdop", "$GPGGA,092751.000,5321.6802,N,00630.3371,W,1,8,1.03,61.7,M,55.3,M,,*75"); // 1.03
+
+
+...
+```
