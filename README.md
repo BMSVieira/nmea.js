@@ -26,12 +26,6 @@ $GPGSV,3,3,11,29,09,301,24,16,09,020,,36,,,*76
 $GPRMC,092751.000,A,5321.6802,N,00630.3371,W,0.06,31.66,280511,,,A*45
 ```
 
-◼️ Features:
--
-- 🛠 Easy to Use
-- 🌠 Fast & Lightweight (0.5Kb)
-- 💪 No dependencies, built with VanillaJS
-
 ◼️ Demo:
 -
 https://mooviejs.com/
