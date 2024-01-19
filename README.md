@@ -27,6 +27,12 @@ $GPRMC,092751.000,A,5321.6802,N,00630.3371,W,0.06,31.66,280511,,,A*45
 ```
 ###### For more detailed info: https://en.wikipedia.org/wiki/NMEA_0183 and https://w3.cs.jmu.edu/bernstdh/web/common/help/nmea-sentences.php
 
+◼️ Currently Supported Formats:
+-
+- GPGGA
+- GPRMC
+
+
 ◼️ Demo:
 -
 https://bmsvieira.github.io/nmea.js
@@ -44,8 +50,3 @@ document.addEventListener("DOMContentLoaded", function() {
    const demo = new Nmea();
 });
 ```
-
-◼️ Currently Supported Formats:
--
-- GPGGA
-- GPRMC
