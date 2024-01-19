@@ -54,10 +54,10 @@ document.addEventListener("DOMContentLoaded", function() {
 ◼️ Extract Information:
 -
 
-There are specific methods you can use for each type of NMEA Sentence, because they provide different types of information, below is a list of available methods for the currently supported NMEA sentences.
+There are specific fields you can use for each type of NMEA Sentence, because they provide different types of information, below is a list of available fields for the currently supported NMEA sentences.
 
 #### GPGGA
-| Method | Response Type |
+| Field | Response Type |
 | --- | --- |
 | altitude | `float` |
 | altitudeUnits | `string` |
@@ -70,7 +70,7 @@ There are specific methods you can use for each type of NMEA Sentence, because t
 | time| Object: `hours`, `minutes`, `seconds`|
 
 #### GPRMC
-| Method | Response Type |
+| Field | Response Type |
 | --- | --- |
 | checksum | `float` |
 | coordinates | Object: `latitude`, `latitudeDirection`, `longitude`, `longitudeDirection` |
@@ -104,7 +104,7 @@ demo.getInfo("magneticVariation"); // 1.2
 ```javascript
 demo = new Nmea();
 
-// Now you have the nmea.js library ready to extract information from multiple and different nmea sentences, as long as you pass it as parameter, for example:
+// Now you have nmea.js library ready to extract information from multiple and different nmea sentences, as long as you pass it as parameter, for example:
 
 demo.getInfo("speed", "$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03"); // 12
 demo.getInfo("heading", "$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03"); // 25
