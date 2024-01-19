@@ -50,3 +50,36 @@ document.addEventListener("DOMContentLoaded", function() {
    const demo = new Nmea();
 });
 ```
+
+◼️ Extract Information:
+-
+
+There are specific methods you can use for each type of NMEA Sentence, because they provide different types of information, below is a list of available methods for the currently supported NMEA sentences.
+
+#### GPGGA
+| Method | Response Type |
+| --- | --- |
+| altitude | `float` |
+| altitudeUnits | `string` |
+| checksum | `int`|
+| coordinates | Object: `latitude`, `latitudeDirection`, `longitude`, `longitudeDirection` |
+| fixType  | `int`  |
+| hdop  | `float`  |
+| satellites | `int` |
+| sentenceType| `string`|
+| time| Object: `hours`, `minutes`, `seconds`|
+
+#### GPRMC
+| Method | Response Type |
+| --- | --- |
+| checksum | `float` |
+| coordinates | Object: `latitude`, `latitudeDirection`, `longitude`, `longitudeDirection` |
+| date |  `string`|
+| time| Object: `hours`, `minutes`, `seconds`|
+| heading | `int` |
+| magneticVariation  | `float`  |
+| magneticVariationDirection  | `string`  |
+| positionStatus | `string` |
+| sentenceType| `string`|
+| speed | `float` |
+
