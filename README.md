@@ -98,6 +98,32 @@ demo.getInfo("speed"); // 12
 demo.getInfo("heading"); // 25
 demo.getInfo("magneticVariation"); // 1.2
 ...
+
+// You can also use Getters and Setters, for example:
+
+API > Get
+
+demo.altitude
+demo.altitudeUnits
+demo.checksum
+demo.coordinates
+demo.fixType
+demo.hdop
+demo.satellites
+demo.sentenceType
+demo.time
+demo.date
+demo.heading
+demo.magneticVariation
+demo.magneticVariationDirection
+demo.positionStatus
+demo.speed 
+
+API > Set
+
+// Define a new sentence in the constructor
+demo.set = "$GPRMC,001225,A,2832.1834,N,08101.0536,W,12,25,251211,1.2,E,A*03";
+
 ```
 
 <b>As a paremeter:</b>
@@ -113,3 +139,4 @@ demo.getInfo("altitudeUnits", "$GPGGA,092751.000,5321.6802,N,00630.3371,W,1,8,1.
 demo.getInfo("hdop", "$GPGGA,092751.000,5321.6802,N,00630.3371,W,1,8,1.03,61.7,M,55.3,M,,*75"); // 1.03
 ...
 ```
+
