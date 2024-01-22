@@ -11,12 +11,52 @@ class Nmea {
         // Global
         let _this = this;
         this.option = option;
+        this.type = null;
 
+        // Defines nmea type
+        this.nmeaType = function(sentence)
+        {
+            const splitSentence = sentence.split(',');
+            if (sentence.startsWith('$') && splitSentence.length >= 2) {
+        
+                const sentenceType = splitSentence[0].substring(1).toLowerCase();
+                if(sentenceType.length >= 5) { this.type = sentenceType; }
+                   
+            } else { return false }
+        }
+
+        // Check if it came from the constructor or parameter
         this.checkSource = function(sentence)
         {
-            if(!this.option) { return sentence;  } else { return this.option  }
+            if(this.nmeaType(sentence))
+            {
+                if(!this.option) { return sentence;  } else { return this.option  }
+            }
         }
+
+        // Check sentence type
+        this.validateSentence = function(sentence)
+        {
+            const splitSentence = sentence.split(',');
+            if (sentence.startsWith('$') && splitSentence.length >= 2) {
         
+                const sentenceType = splitSentence[0].substring(1).toLowerCase();
+                if(sentenceType.length >= 5) { return true; }
+                   
+            } else { return false }
+        }
+
+        // Check if property exists
+        this.checkProperty = function(property)
+        {
+            if (this.nmea[this.type] && this.nmea[this.type][property]) {
+                return true
+            } else {
+                return "There is no property for that sentence."
+            }
+        }
+
+        // Main object
         this.nmea = {
             gpgga: {
                 sentenceType: function(sentence) { return "GPGGA"; },
@@ -229,34 +269,227 @@ class Nmea {
 
     }
 
+    /*
+    ** Methods
+    */
+
     getInfo(property, sentence) {
 
-        console.log(this.nmea);
-
         // Check if source if from constructor or parameter
-        sentence = this.checkSource(sentence);
-       
+        this.checkSource(sentence);
+
         // Check if sentence is provided
-        if(sentence)
+        if(sentence && this.validateSentence(sentence))
         {
             const splitSentence = sentence.split(',');
-
-            // Check if the sentence starts with "$" and has at least two fields
-            if (sentence.startsWith('$') && splitSentence.length >= 2) {
+            const coordinatesProperty = property;
+            const result = this.nmea[this.type][coordinatesProperty](splitSentence);
+            return result;
         
-                const sentenceType = splitSentence[0].substring(1).toLowerCase();
-                const coordinatesProperty = property;
-                const result = this.nmea[sentenceType][coordinatesProperty](splitSentence);
-                return result;
-        
-            } else {
-                return "Invalid NMEA Sentence"; // Invalid NMEA sentence
-            }
         } else {
-            return "NMEA Sentence must be provided in constructor or as parameter"; // Invalid NMEA sentence
+            return "Invalid NMEA Sentence! must be provided in constructor or as parameter";
         }
+    }
 
-    
+    /*
+    ** API > Gets
+    */
+
+    get altitude() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("altitude"))
+        {
+            try {
+                const result = this.nmea[this.type]["altitude"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get altitudeUnits() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("altitudeUnits"))
+        {
+            try {
+                const result = this.nmea[this.type]["altitudeUnits"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get checksum() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("checksum"))
+        {
+            try {
+                const result = this.nmea[this.type]["checksum"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get coordinates() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("coordinates"))
+        {
+            try {
+                const result = this.nmea[this.type]["coordinates"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.erwarnror("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get fixType() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("fixType"))
+        {
+            try {
+                const result = this.nmea[this.type]["fixType"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get hdop() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("hdop"))
+        {
+            try {
+                const result = this.nmea[this.type]["hdop"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get satellites() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("satellites"))
+        {
+            try {
+                const result = this.nmea[this.type]["satellites"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get sentenceType() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("sentenceType"))
+        {
+            try {
+                const result = this.nmea[this.type]["sentenceType"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get time() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("time"))
+        {
+            try {
+                const result = this.nmea[this.type]["time"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get date() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("date"))
+        {
+            try {
+                const result = this.nmea[this.type]["date"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get heading() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("heading"))
+        {
+            try {
+                const result = this.nmea[this.type]["heading"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get magneticVariation() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("magneticVariation"))
+        {
+            try {
+                const result = this.nmea[this.type]["magneticVariation"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get magneticVariationDirection() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("magneticVariationDirection"))
+        {
+            try {
+                const result = this.nmea[this.type]["magneticVariationDirection"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get positionStatus() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("positionStatus"))
+        {
+            try {
+                const result = this.nmea[this.type]["positionStatus"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+    get speed() { 
+        this.checkSource(this.option);
+        if(this.checkProperty("speed"))
+        {
+            try {
+                const result = this.nmea[this.type]["speed"](this.option.split(','));
+                return result;
+              } catch (error) {
+                console.warn("Property 'altitudeUnits' does not exist in '"+this.type+"' sentence");
+              } 
+        }
+    }
+
+
+    /*
+    ** API > Sets
+    */
+    set set(sentence)
+    {
+        try {
+            if(sentence && this.validateSentence(sentence))
+            {
+                this.option = sentence;
+            } 
+          } catch (error) {
+            console.error("Invalid NMEA Sentence! must be provided in constructor or as parameter");
+          }
     }
 }
 
