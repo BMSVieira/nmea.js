@@ -1,5 +1,5 @@
 <p align="center">
-<img width="" src="https://raw.githubusercontent.com/BMSVieira/nmea.js/main/demo/img/logo.png?token=GHSAT0AAAAAACLN5BL733MRXOVK5CMJIZ6YZNKQA5Q">
+<img width="" src="https://raw.githubusercontent.com/BMSVieira/nmea.js/refs/heads/main/demo/img/logo.png">
 </p>
 
 ◼️ NMEA 0183:
